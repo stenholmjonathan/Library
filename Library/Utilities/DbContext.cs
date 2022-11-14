@@ -4,7 +4,7 @@ namespace Library.Utilities
 {
     public static class DbContext
     {
-        public static bool IsOpen { get; set; }
+        public static bool IsOpen { get; set; } = true;
         public static IEnumerable<Book> Books()
         {
             if (IsOpen)

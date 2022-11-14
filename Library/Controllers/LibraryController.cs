@@ -21,7 +21,7 @@ namespace Library.Controllers
         {
             var result = _libraryService.GetAllBooks();
 
-            return Ok(result);
+            return Ok(result.Result);
         }
     }
 }
