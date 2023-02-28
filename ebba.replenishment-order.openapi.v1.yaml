@@ -1,0 +1,238 @@
+openapi: 3.0.1
+info:
+  title: Replenishment Order
+  description: ''
+  version: v1
+servers:
+  - url: https://apim-replenishment-order.azure-api.net/publishEvent/v1
+paths:
+  /resource:
+    post:
+      summary: Create resource
+      description: A demonstration of a POST call based on the echo backend above. The request body is expected to contain JSON-formatted data (see example below). A policy is used to automatically transform any request sent in JSON directly to XML. In a real-world scenario this could be used to enable modern clients to speak to a legacy backend.
+      operationId: create-resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replenishment-order-v1'
+            example:
+              contentSource: string
+              contentInterface: string
+              contentOriginIdentifier:
+                originIdentifierName: string
+                originIdentifierValue: string
+              contents:
+                - metaDataHeader:
+                    contentId: string
+                    contentLatestUpdateDate: string
+                    contentRoutingIdentifier:
+                      - code: string
+                        type: string
+                        class: string
+                  dataObjectValue:
+                    orderNumber: 0
+                    receiverCode: string
+                    receiverType: string
+                    senderCode: string
+                    senderType: string
+                    receiverCodeActual: string
+                    receiverTypeActual: string
+                    transitPointCode: string
+                    transitPointType: string
+                    orderMethod: string
+                    orderType: string
+                    statusDescription: string
+                    statusCode: string
+                    statusChangeDate: string
+                    reasonDescription: string
+                    reasonCode: string
+                    reasonCodeSource: string
+                    itemNumber: string
+                    itemType: string
+                    supplierCode: string
+                    supplierType: string
+                    unitOfMeasureCode: string
+                    itemQuantity: 0
+                    dispatchDate: string
+                    receiveDate: string
+                    proposedQuantity: 0
+                    orderedQuantity: 0
+                    createdQuantity: 0
+                    confirmedQuantity: 0
+                    acknowledgeDate: string
+                    arriveDateAtOrderCreation: string
+                    orderCreationDate: string
+                    orderConfirmationDate: string
+                    dispatchDateAtOrdering: string
+                    dispatchDateAtCreation: string
+                    dispatchDateAtConfirmation: string
+                    dispatchDateProposed: string
+                    dispatchDateNeeded: string
+                    dispatchDatePlanned: string
+                    receiveDateAtCreation: string
+                    receiveDateNeeded: string
+                    receiveDatePlanned: string
+                    createTime: string
+                    updateTime: string
+                    internalOrderKey: string
+                    omsUpdateDeleteFlag: string
+                    omsPublishDTime: string
+      responses:
+        '200':
+          description: ''
+components:
+  schemas:
+    replenishment-order-v1:
+      type: object
+      properties:
+        contentSource:
+          type: string
+        contentInterface:
+          type: string
+        contentOriginIdentifier:
+          type: object
+          properties:
+            originIdentifierName:
+              type: string
+            originIdentifierValue:
+              type: string
+        contents:
+          type: array
+          items:
+            required:
+              - metaDataHeader
+              - dataObjectValue
+            type: object
+            properties:
+              metaDataHeader:
+                type: object
+                properties:
+                  contentId:
+                    type: string
+                  contentLatestUpdateDate:
+                    type: string
+                  contentRoutingIdentifier:
+                    type: array
+                    items:
+                      required:
+                        - code
+                        - type
+                        - class
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        type:
+                          type: string
+                        class:
+                          type: string
+              dataObjectValue:
+                type: object
+                properties:
+                  orderNumber:
+                    type: integer
+                  receiverCode:
+                    type: string
+                  receiverType:
+                    type: string
+                  senderCode:
+                    type: string
+                  senderType:
+                    type: string
+                  receiverCodeActual:
+                    type: string
+                  receiverTypeActual:
+                    type: string
+                  transitPointCode:
+                    type: string
+                  transitPointType:
+                    type: string
+                  orderMethod:
+                    type: string
+                  orderType:
+                    type: string
+                  statusDescription:
+                    type: string
+                  statusCode:
+                    type: string
+                  statusChangeDate:
+                    type: string
+                  reasonDescription:
+                    type: string
+                  reasonCode:
+                    type: string
+                  reasonCodeSource:
+                    type: string
+                  itemNumber:
+                    type: string
+                  itemType:
+                    type: string
+                  supplierCode:
+                    type: string
+                  supplierType:
+                    type: string
+                  unitOfMeasureCode:
+                    type: string
+                  itemQuantity:
+                    type: integer
+                  dispatchDate:
+                    type: string
+                  receiveDate:
+                    type: string
+                  proposedQuantity:
+                    type: integer
+                  orderedQuantity:
+                    type: integer
+                  createdQuantity:
+                    type: integer
+                  confirmedQuantity:
+                    type: integer
+                  acknowledgeDate:
+                    type: string
+                  arriveDateAtOrderCreation:
+                    type: string
+                  orderCreationDate:
+                    type: string
+                  orderConfirmationDate:
+                    type: string
+                  dispatchDateAtOrdering:
+                    type: string
+                  dispatchDateAtCreation:
+                    type: string
+                  dispatchDateAtConfirmation:
+                    type: string
+                  dispatchDateProposed:
+                    type: string
+                  dispatchDateNeeded:
+                    type: string
+                  dispatchDatePlanned:
+                    type: string
+                  receiveDateAtCreation:
+                    type: string
+                  receiveDateNeeded:
+                    type: string
+                  receiveDatePlanned:
+                    type: string
+                  createTime:
+                    type: string
+                  updateTime:
+                    type: string
+                  internalOrderKey:
+                    type: string
+                  omsUpdateDeleteFlag:
+                    type: string
+                  omsPublishDTime:
+                    type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Apim-Replenishment-Order-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
