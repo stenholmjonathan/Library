@@ -1,0 +1,137 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "internal/bc/relay",
+        "version": "mock"
+    },
+    "host": "nonprd-rpic.retops.inter.ikeadt.com:8443",
+    "basePath": "/internal/bc/relay/mock",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "apiKeyHeader": {
+            "type": "apiKey",
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header"
+        },
+        "apiKeyQuery": {
+            "type": "apiKey",
+            "name": "subscription-key",
+            "in": "query"
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ],
+    "paths": {
+        "/request": {
+            "post": {
+                "operationId": "request",
+                "summary": "request",
+                "parameters": [
+                    {
+                        "name": "relayRequest",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/RelayRequest"
+                        }
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": null
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "RelayRequest": {
+            "title": "Relay Request",
+            "required": [
+                "authentication",
+                "url",
+                "method",
+                "franchisee",
+                "location"
+            ],
+            "type": "object",
+            "properties": {
+                "authentication": {
+                    "title": "Request Authentication",
+                    "required": [
+                        "user",
+                        "password"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                            "title": "Username",
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "password": {
+                            "title": "Password",
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                },
+                "url": {
+                    "format": "uri",
+                    "title": "Request URL",
+                    "description": "Target server URL of the remote call",
+                    "type": "string"
+                },
+                "franchisee": {
+                    "title": "Franchisee",
+                    "description": "The identifier of the franchisee to connect to",
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "location": {
+                    "title": "Location",
+                    "description": "The identifier of the franchisee system/store to connect to",
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "method": {
+                    "title": "Request Method",
+                    "description": "HTTP request method of the remote call",
+                    "default": "POST",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "PATCH"
+                    ],
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Request Payload Content",
+                    "description": "Optional JSON payload to send to the remote server endpoint"
+                }
+            },
+            "example": {
+                "authentication": {
+                    "user": "string",
+                    "password": "string"
+                },
+                "url": "string",
+                "method": "POST",
+                "content": {}
+            }
+        }
+    },
+    "tags": []
+}
