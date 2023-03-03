@@ -1,0 +1,95 @@
+openapi: 3.0.1
+info:
+  title: internal/bc/relay
+  description: ''
+  version: mock
+servers:
+  - url: https://nonprd-rpic.retops.inter.ikeadt.com:8443/internal/bc/relay/mock
+paths:
+  /request:
+    post:
+      summary: request
+      operationId: request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RelayRequest'
+            example:
+              authentication:
+                user: string
+                password: string
+              url: string
+              method: POST
+              content: { }
+      responses:
+        '200':
+          description: 
+components:
+  schemas:
+    RelayRequest:
+      title: Relay Request
+      required:
+        - authentication
+        - url
+        - method
+        - franchisee
+        - location
+      type: object
+      properties:
+        authentication:
+          title: Request Authentication
+          required:
+            - user
+            - password
+          type: object
+          properties:
+            user:
+              title: Username
+              minLength: 1
+              type: string
+            password:
+              title: Password
+              minLength: 1
+              type: string
+        url:
+          title: Request URL
+          type: string
+          description: Target server URL of the remote call
+          format: uri
+        location:
+          title: Location
+          minLength: 1
+          type: string
+          description: The identifier of the franchisee system/store to connect to 
+        franchisee:
+          title: Franchisee
+          minLength: 1
+          type: string
+          description: The identifier of the franchisee to connect to
+        method:
+          title: Request Method
+          enum:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+          type: string
+          description: HTTP request method of the remote call
+          default: POST
+        content:
+          title: Request Payload Content
+          description: Optional JSON payload to send to the remote server endpoint
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
