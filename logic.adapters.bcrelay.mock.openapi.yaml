@@ -6,10 +6,10 @@ info:
 servers:
   - url: https://nonprd-rpic.retops.inter.ikeadt.com:8443/internal/bc/relay/mock
 paths:
-  /request:
+  /replenishment-order-bc:
     post:
       summary: request
-      operationId: request
+      operationId: replenishment-order-bc
       requestBody:
         content:
           application/json:
