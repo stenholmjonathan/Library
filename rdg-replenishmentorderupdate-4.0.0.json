@@ -1,0 +1,331 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$version": "4.0.0",
+    "title": "RDG ReplenishmentOrderUpdate Schema",
+    "type": "object",
+    "required": [
+        "schemaVersion",
+        "contentSource",
+        "id",
+        "lastModified",
+        "traceId",
+        "eventType",
+        "eventTime",
+        "filter",
+        "delta",
+        "data"
+    ],
+    "properties": {
+        "schemaVersion": {
+            "type": "string",
+            "description": "Schema version number."
+        },
+        "contentSource": {
+            "type": "string",
+            "description": "The source of the content that generated the event."
+        },
+        "id": {
+            "type": "string",
+            "description": "The ID for the content, sent from the provider and is same no matter how many times same content is published."
+        },
+        "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time when the file was last modified."
+        },
+        "traceId": {
+            "type": "string",
+            "description": "The ID used to trace the event across different services."
+        },
+        "eventType": {
+            "type": "string",
+            "description": "The type of the event."
+        },
+        "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time when the event occurred."
+        },
+        "filter": {
+            "type": "object",
+            "properties": {
+                "contentRoutingIdentifier": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Rounting identifiers, eg. STO-366."
+                    }
+                }
+            },
+            "description": "The filters for event."
+        },
+        "delta": {
+            "type": "boolean",
+            "description": "Indicates whether the file represents a delta change."
+        },
+        "data": {
+            "$ref": "#/definitions/data",
+            "description": "The actual data schema based on https://github.com/Inter-IKEA-Digital/replenishment-order-update/tree/release/3.0.0"
+        }
+    },
+    "definitions": {
+        "data": {
+            "type": "object",
+            "properties": {
+                "replOrdUpdList": {
+                    "type": "array",
+                    "additionalItems": false,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/replOrdUpdType"
+                    }
+                }
+            },
+            "required": [
+                "replOrdUpdList"
+            ]
+        },
+        "attributeType": {
+            "type": "object",
+            "properties": {
+                "attributeName": {
+                    "type": "string"
+                },
+                "attributeValue": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attributeName",
+                "attributeValue"
+            ]
+        },
+        "replOrdUpdType": {
+            "type": "object",
+            "properties": {
+                "BusinessUnitCodeReceiver": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5
+                },
+                "BusinessUnitTypeReceiver": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 3,
+                    "enum": [
+                        "STO",
+                        "DT",
+                        "CDC"
+                    ]
+                },
+                "ItemNumber": {
+                    "type": "string",
+                    "description": "Item Number",
+                    "maxLength": 15,
+                    "minLength": 1
+                },
+                "ItemType": {
+                    "type": "string",
+                    "description": "Item Type",
+                    "enum": [
+                        "ART",
+                        "ADS"
+                    ],
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "OrderCreationDate": {
+                    "type": "string",
+                    "description": "Creation Date of Order in the time zone used by Order creator.Its Only local order creation Date format not including the Time",
+                    "format": "date"
+                },
+                "OrderSourceCode": {
+                    "type": "string",
+                    "description": "Order Source Code",
+                    "maxLength": 8,
+                    "minLength": 1
+                },
+                "OrderSequence": {
+                    "type": "number",
+                    "description": "Sequence Number of Order",
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "ChangeType": {
+                    "type": "string",
+                    "description": "Change Type",
+                    "enum": [
+                        "CNF",
+                        "UPD",
+                        "CAN",
+                        "PLN",
+                        "UNP",
+                        "DSP",
+                        "RCV"
+                    ],
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "OrderProposal": {
+                    "type": "number",
+                    "description": "Order Proposal identifier",
+                    "maximum": 9999999999,
+                    "minimum": 0
+                },
+                "BusinessUnitCodeSender": {
+                    "type": "string",
+                    "description": "Business Unit Code of Sender",
+                    "maxLength": 5,
+                    "minLength": 1
+                },
+                "BusinessUnitTypeSender": {
+                    "type": "string",
+                    "description": "Business Unit Type of Sender",
+                    "enum": [
+                        "DT",
+                        "CDC"
+                    ],
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "BusinessUnitCodeSupplier": {
+                    "type": "string",
+                    "description": "Business Unit Code of Supplier",
+                    "maxLength": 5,
+                    "minLength": 1
+                },
+                "BusinessUnitTypeSupplier": {
+                    "type": "string",
+                    "description": "Business Unit Type of Supplier ",
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "BusinessUnitCodeTransportpoint": {
+                    "type": "string",
+                    "description": "Business Unit Code of Mid-Receiver (transport point)",
+                    "maxLength": 5,
+                    "minLength": 1
+                },
+                "BusinessUnitTypeTransportpoint": {
+                    "type": "string",
+                    "description": "Business Unit Type of Mid-Receiver (transport point)",
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "DispatchDateTimeEstimated": {
+                    "type": "string",
+                    "description": "Current expected dispatch date time in in ISO 8601 format with 3 digits for millis.",
+                    "format": "date-time",
+                    "example": "2020-12-31T23:59:59.000+00:00"
+                },
+                "ItemQuantity": {
+                    "type": "number",
+                    "description": "Current quantity of the order. Updated during the order life cycle.",
+                    "maximum": 999999999.99,
+                    "minimum": -999999999.99,
+                    "multipleOf": 0.01
+                },
+                "UnitOfMeasureCode": {
+                    "type": "string",
+                    "description": "Unit of Measurement Code Quantity ",
+                    "enum": [
+                        "PCE",
+                        "MTR"
+                    ],
+                    "maxLength": 5,
+                    "minLength": 1
+                },
+                "ReasonCode": {
+                    "type": "string",
+                    "description": "Reason Code",
+                    "maxLength": 8,
+                    "minLength": 1
+                },
+                "ReasonSource": {
+                    "type": "string",
+                    "description": "Reason Source. E.g. CWIS, ASTRO, GTS",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "SalesMethod": {
+                    "type": "string",
+                    "description": "Sales Method Code",
+                    "maxLength": 1,
+                    "minLength": 1
+                },
+                "ConsignmentNumber": {
+                    "type": "string",
+                    "description": "Consignment Number",
+                    "maxLength": 12,
+                    "minLength": 1
+                },
+                "ConsignmentLineNumber": {
+                    "type": "integer",
+                    "description": "Consignment Line Number"
+                },
+                "ConsignmentCreatorCode": {
+                    "type": "string",
+                    "description": "Business Unit Code of CSM Creator",
+                    "maxLength": 5,
+                    "minLength": 1
+                },
+                "ConsignmentCreatorType": {
+                    "type": "string",
+                    "description": "Business Unit Type of CSM Creator",
+                    "maxLength": 3,
+                    "minLength": 1
+                },
+                "SourceOrderType": {
+                    "type": "string",
+                    "description": "Order classification used in source system",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "SourceOrderReference": {
+                    "type": "string",
+                    "description": "Order identifier used in the system publishing the update. Alias to INOS-key used internally in the source system.",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "SourceSystemPublish": {
+                    "type": "string",
+                    "description": "The system publishing to common area. E.g. CWIS, GTS",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "SourceSystemOriginal": {
+                    "type": "string",
+                    "description": "The system where the change actually happended. E.g CWIS, ASTRO, GTS",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "TransactionDateTime": {
+                    "type": "string",
+                    "description": "The system date and time when the original source system performed the change in ISO 8601 format with 3 digits for millis..",
+                    "format": "date-time",
+                    "example": "2020-12-31T23:59:59.000+00:00"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "BusinessUnitCodeReceiver",
+                "BusinessUnitTypeReceiver",
+                "ItemNumber",
+                "ItemType",
+                "OrderCreationDate",
+                "OrderSourceCode",
+                "OrderSequence",
+                "ChangeType",
+                "BusinessUnitCodeSender",
+                "BusinessUnitTypeSender",
+                "DispatchDateTimeEstimated",
+                "ItemQuantity",
+                "UnitOfMeasureCode",
+                "SourceOrderReference",
+                "SourceSystemPublish",
+                "SourceSystemOriginal",
+                "TransactionDateTime"
+            ]
+        }
+    }
+}
